@@ -8,11 +8,58 @@ def run():
     client = OemClient()
     client.load_all()
 
+    #
+    # 3
+    #
+
     result = client['anidb'].to('tvdb').map('3', 1, 2)
-    print
+    print result
+
+    #
+    # 38
+    #
+
+    result = client['anidb'].to('tvdb').map('38', 1, 2)
+    print result
+
+    #
+    # 818
+    #
 
     result = client['anidb'].to('tvdb').map('818', 0, 1)
-    print
+    print result
+
+    #
+    # 1041
+    #
+
+    result = client['anidb'].to('tvdb').map('1041', 1, 45)
+    print result
+
+    #
+    # 10648
+    #
+
+    result = client['anidb'].to('tvdb').map('10648', 1, 1, 34)
+    print result
+
+    result = client['anidb'].to('tvdb').map('10648', 1, 1, 49)
+    print result
+
+    result = client['anidb'].to('tvdb').map('10648', 1, 1, 50)
+    print result
+
+    result = client['anidb'].to('tvdb').map('10648', 1, 1, 51)
+    print result
+
+    result = client['anidb'].to('tvdb').map('10648', 1, 1, 64)
+    print result
+
+    result = client['anidb'].to('tvdb').map('10648', 1, 1, 99)
+    print result
+
+    result = client['anidb'].to('tvdb').map('10648', 1, 1, 100)
+    print result
 
     # Movies
     movie_anidb_7103 = client['anidb'].to('imdb').get(7103)
