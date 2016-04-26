@@ -37,7 +37,10 @@ class Service(object):
 
         for package_path in sys.path:
             # Ignore invalid paths
-            if package_path.endswith('.egg'):
+            if package_path.endswith('.egg') or package_path.endswith('.zip'):
+                continue
+
+            if not os.path.exists(package_path):
                 continue
 
             # List items in `package_path`
