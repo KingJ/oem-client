@@ -35,7 +35,7 @@ class Service(object):
             'oem_%s_%s' % (self.target, self.source)
         ]
 
-        for package_path in sys.path:
+        for package_path in [os.curdir] + self.client.search_paths + sys.path:
             # Ignore invalid paths
             if package_path.endswith('.egg') or package_path.endswith('.zip'):
                 continue
@@ -88,7 +88,7 @@ class Service(object):
             available.append((modified_date, path))
 
         if len(available) < 1:
-            raise Exception('No supported index available in %r', collection_path)
+            raise Exception('No supported index available in %r' % collection_path)
 
         # Sort `available` by modified date
         available.sort(key=lambda i: i[0])

@@ -2,7 +2,7 @@ from oem.services import SERVICES
 
 
 class Client(object):
-    def __init__(self, use_database_packages=True):
+    def __init__(self, search_paths=None, use_database_packages=True):
         """OpenEntityMap (OEM) Client
 
         :param use_database_packages: True  = Use installed database packages (if available),
@@ -10,6 +10,7 @@ class Client(object):
         :type use_database_packages: bool
         """
 
+        self.search_paths = search_paths or []
         self.use_database_packages = use_database_packages
 
         # Construct services
