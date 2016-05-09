@@ -56,7 +56,7 @@ class AniDbService(Service):
         except KeyError:
             return default
 
-    def map(self, key, season_num, episode_num, progress=None):
+    def map(self, key, identifier):
         # Retrieve item
         item = self.get(key)
 
@@ -64,13 +64,7 @@ class AniDbService(Service):
             return None
 
         # Map episode
-        return ShowMapper.match(
-            item,
-            season_num,
-            episode_num,
-
-            progress=progress
-        )
+        return self.mapper.match(item, identifier)
 
     def titles(self, key):
         pass
