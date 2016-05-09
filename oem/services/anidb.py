@@ -13,30 +13,10 @@ class AniDbService(Service):
         'tvdb':     ['anidb']
     }
 
-    def __init__(self, client, source, target):
-        super(AniDbService, self).__init__(client, source, target)
+    def __init__(self, client, source, target, formats=None):
+        super(AniDbService, self).__init__(client, source, target, formats)
 
-        self.loaded = False
-
-    def load(self):
-        if self.loaded:
-            raise Exception('Service already loaded')
-
-        # Try find installed database package
-        database_path = self.find_database()
-
-        if not database_path:
-            # TODO Download database index
-            raise NotImplementedError
-
-        log.info('Using database: %r', database_path)
-
-        # Load collection
-        self.load_collection()
-
-        # Finished loading service
-        log.info('Loaded service: %-5s -> %-5s', self.source, self.target)
-        self.loaded = True
+        self.mapper = ShowMapper(self)
 
     def get(self, key, default=None):
         # Retrieve item metadata
@@ -45,14 +25,21 @@ class AniDbService(Service):
         if metadata is None:
             return default
 
-        # TODO check for updates
+        # Ensure item is available
+        if not self.fetch(key, metadata):
+            return default
 
         # Retrieve item from disk
         return metadata.get()
 
     def get_metadata(self, key, default=None):
+        # Ensure service is loaded
+        if not self.load():
+            return default
+
+        # Retrieve item metadata
         try:
-            return self.collection[key]
+            return self._collection[key]
         except KeyError:
             return default
 
