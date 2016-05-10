@@ -1,9 +1,30 @@
-from oem.media.show.identifier import EpisodeIdentifier
-from oem.media.show.match import EpisodeMatch
+from oem.media.movie import MovieIdentifier, MovieMatch
+from oem.media.show import EpisodeIdentifier, EpisodeMatch
 from tests.services.anidb.fixtures import client
 
 import pytest
 
+
+#
+# Movie Mapping
+#
+
+def test_movie_invalid(client):
+    assert client['anidb'].to('imdb').map('1045', EpisodeIdentifier(1, 2)) is None
+
+
+def test_movie_matches(client):
+    assert client['anidb'].to('imdb').map('1043', MovieIdentifier()) == MovieMatch(
+        {'imdb': 'tt0142235'}
+    )
+
+    assert client['anidb'].to('imdb').map('1045', EpisodeIdentifier(1, 1)) == MovieMatch(
+        {'imdb': 'tt1125254'}
+    )
+
+    assert client['anidb'].to('imdb').map('1045') == MovieMatch(
+        {'imdb': 'tt1125254'}
+    )
 
 #
 # Show Mapping
@@ -13,6 +34,12 @@ import pytest
 def test_show_invalid(client):
     assert client['anidb'].to('tvdb').map('INVALID', EpisodeIdentifier(1, 1)) is None
 
+    with pytest.raises(ValueError):
+        assert client['anidb'].to('tvdb').map('1045', MovieIdentifier())
+
+    with pytest.raises(ValueError):
+        assert client['anidb'].to('tvdb').map('1045')
+
 
 def test_show_matches(client):
     assert client['anidb'].to('tvdb').map('1', EpisodeIdentifier(1, 1)) == EpisodeMatch(
@@ -21,6 +48,10 @@ def test_show_matches(client):
 
     assert client['anidb'].to('tvdb').map('4', EpisodeIdentifier(1, 1)) == EpisodeMatch(
         {'tvdb': '72025'}, 2, 1
+    )
+
+    assert client['anidb'].to('tvdb').map('1045', EpisodeIdentifier(1, 1)) == EpisodeMatch(
+        {'tvdb': '81472'}, 0, 5
     )
 
 
