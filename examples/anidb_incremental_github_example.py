@@ -17,12 +17,11 @@ def run():
     # Initialize client
     client = OemClient(
         provider=IncrementalReleaseProvider(
-            database_url='http://127.0.0.1:5000/',
             fmt='minimize+msgpack',
             storage=CodernityDbStorage(os.path.join(
                 CURRENT_DIR,
                 '.codernitydb',
-                'anidb_ondemand_example'
+                'anidb_incremental_github_example'
             ))
         )
     )
