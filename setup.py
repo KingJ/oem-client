@@ -9,6 +9,7 @@ setup(
 
     install_requires=[
         'appdirs>=1.4.0',
-        'requests>=2.10.0'
+        'requests>=2.10.0',
+        'semantic_version>=2.5.0'
     ]
 )

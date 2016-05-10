@@ -49,8 +49,5 @@ class ReleaseProvider(Provider):
     def update_database(self, source, target):
         raise NotImplementedError
 
-    def version_available(self, source, target):
-        raise NotImplementedError
-
-    def version_current(self, source, target):
+    def get_available_version(self, source, target):
         raise NotImplementedError

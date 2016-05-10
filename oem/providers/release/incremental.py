@@ -1,5 +1,6 @@
 from oem.providers.release.core.base import ReleaseProvider
 
+from semantic_version import Version
 import logging
 import requests
 import urlparse
@@ -9,8 +10,7 @@ log = logging.getLogger(__name__)
 
 class IncrementalReleaseProvider(ReleaseProvider):
     def fetch(self, source, target, key, metadata):
-        # TODO use current version
-        version = '1.0.0'
+        version = self.storage.get_collection_version(source, target)
 
         # Update item
         if not self.update_item(source, target, version, key, metadata):
@@ -18,14 +18,17 @@ class IncrementalReleaseProvider(ReleaseProvider):
 
         return True
 
-    def update_database(self, source, target):
-        available = self.version_available(source, target)
-        current = self.version_current(source, target)
+    def get_available_version(self, source, target):
+        # TODO Retrieve latest version available
+        return Version('1.0.0')
 
-        if available == current:
-            # Already up to date
-            # TODO check data integrity
-            return True
+    #
+    # Update methods
+    #
+
+    def update_database(self, source, target):
+        # Retrieve available version for collection
+        available = self.get_available_version(source, target)
 
         # Update index
         if not self.update_index(source, target, available):
@@ -33,9 +36,14 @@ class IncrementalReleaseProvider(ReleaseProvider):
 
         return True
 
-    def update_index(self, source, target, version):
-        if self.storage.has_index(source, target, version):
+    def update_index(self, source, target, version, force=False):
+        current_version = self.storage.get_collection_version(source, target)
+
+        if current_version is not None and current_version >= version and not force:
+            log.info('[%s -> %s] Collection is up to date (v%s)', source, target, current_version)
             return True
+
+        log.info('[%s -> %s] Updating collection to v%s', source, target, version)
     
         # Fetch index
         response = self._fetch(source, target, version, 'index.%s' % self.format.__extension__)
@@ -44,10 +52,18 @@ class IncrementalReleaseProvider(ReleaseProvider):
             return False
     
         # Update cache
-        return self.storage.update_index(source, target, version, response)
+        if not self.storage.update_index(source, target, response):
+            return False
+
+        # Update collection
+        if not self.storage.update_collection(source, target, version):
+            return False
+
+        log.info('[%s -> %s] Collection has been updated to v%s', source, target, version)
+        return True
 
     def update_item(self, source, target, version, key, metadata):
-        if self.storage.has_item(source, target, version, key):
+        if self.storage.has_item(source, target, key):
             return True
     
         # Fetch index
@@ -57,15 +73,11 @@ class IncrementalReleaseProvider(ReleaseProvider):
         ]))
     
         # Update cache
-        return self.storage.update_item(source, target, version, key, response, metadata)
+        return self.storage.update_item(source, target, key, response, metadata)
 
-    def version_available(self, source, target):
-        # TODO Retrieve latest version available
-        return '1.0.0'
-
-    def version_current(self, source, target):
-        # TODO Retrieve current version
-        return None
+    #
+    # Private methods
+    #
 
     def _fetch(self, source, target, version, filename):
         # Build URL
@@ -93,8 +105,10 @@ class IncrementalReleaseProvider(ReleaseProvider):
         return urlparse.urljoin(
             self.database_url,
             '/'.join([
-                self._client.package_name(source, target), version,
-                self._client.database_name(source, target), source,
+                self._client.package_name(source, target),
+                str(version),
+                self._client.database_name(source, target),
+                source,
                 path
             ])
         )
