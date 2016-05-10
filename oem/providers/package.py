@@ -10,10 +10,11 @@ log = logging.getLogger(__name__)
 class PackageProvider(Provider):
     __key__ = 'package'
 
-    def __init__(self, search_paths=None, storage='file'):
+    def __init__(self, search_paths=None, use_installed_packages=True, storage='file'):
         super(PackageProvider, self).__init__(storage)
 
         self.search_paths = search_paths or []
+        self.use_installed_packages = use_installed_packages
 
         self.format = None
 
@@ -54,7 +55,12 @@ class PackageProvider(Provider):
             'oem_database_%s_%s' % (target, source)
         ]
 
-        for package_path in [os.curdir] + self.search_paths + sys.path:
+        paths = [os.curdir] + self.search_paths
+
+        if self.use_installed_packages:
+            paths.extend(sys.path)
+
+        for package_path in paths:
             # Ignore invalid paths
             if package_path.endswith('.egg') or package_path.endswith('.zip'):
                 continue
@@ -76,7 +82,7 @@ class PackageProvider(Provider):
                     return os.path.join(package_path, name)
 
         # Unable to find database installation
-        log.info('Unable to find database installation for: %s -> %s, using online database instead', self._source, self._target)
+        log.info('Unable to find database installation for: %s -> %s', source, target)
         return None
 
     def _pick_format(self, database_path, source):
