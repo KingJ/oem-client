@@ -54,6 +54,18 @@ def test_show_matches(client):
         {'tvdb': '81472'}, 0, 5
     )
 
+    assert client['anidb'].to('tvdb').map('5101', EpisodeIdentifier(0, 2)) == EpisodeMatch(
+        {'tvdb': '80644'}, 0, 2
+    )
+
+    assert client['anidb'].to('tvdb').map('5101', EpisodeIdentifier(1, 2)) == EpisodeMatch(
+        {'tvdb': '80644'}, 1, 2
+    )
+
+    assert client['anidb'].to('tvdb').map('5101', EpisodeIdentifier(2, 2)) == EpisodeMatch(
+        {'tvdb': '80644'}, 2, 2
+    )
+
 
 #
 # Season Mapping
