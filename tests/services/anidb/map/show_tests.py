@@ -44,6 +44,7 @@ def test_matches_tvdb_episode(client):
 
 
 def test_matches_tvdb_episode_absolute(client):
+    assert client['anidb'].to('tvdb').map('230', EpisodeIdentifier(2, 52)) is None
     assert client['anidb'].to('tvdb').map('230', EpisodeIdentifier(2, 52, 52)) == EpisodeMatch({'tvdb': '76703'}, absolute_num=52)
 
 
