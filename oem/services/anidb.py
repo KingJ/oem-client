@@ -55,12 +55,18 @@ class AniDbService(Service):
             return None
 
         if isinstance(item, Movie):
-            return self._movie_mapper.match(item, identifier)
+            match = self._movie_mapper.match(item, identifier)
+        elif isinstance(item, Show):
+            match = self._show_mapper.match(item, identifier)
+        else:
+            raise ValueError('Unknown item: %r' % item)
 
-        if isinstance(item, Show):
-            return self._show_mapper.match(item, identifier)
+        # Validate match
+        if not match or not match.valid:
+            log.warn('[%s/%s] Unable to find mapping for %%r' % (self.source_key, key), identifier)
+            return None
 
-        raise ValueError('Unknown identifier: %r' % identifier)
+        return match
 
     def titles(self, key):
         pass
