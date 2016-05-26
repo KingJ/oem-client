@@ -100,23 +100,22 @@ def test_episode_invalid(client):
     with pytest.raises(ValueError):
         client['anidb'].to('tvdb').map('202', EpisodeIdentifier(1, None))
 
+    assert client['anidb'].to('tvdb').map('missing', EpisodeIdentifier(1, 1)) is None
+    assert client['anidb'].to('tvdb').map('no_default_season', EpisodeIdentifier(1, 1)) is None
+
 
 def test_episode_matches(client):
-    assert client['anidb'].to('tvdb').map('202', EpisodeIdentifier(1, 1)) == EpisodeMatch(
-        {'tvdb': '70350'}, 0, 2
-    )
+    assert client['anidb'].to('tvdb').map('1', EpisodeIdentifier(1, 1)) == EpisodeMatch({'tvdb': '72025'}, 1, 1)
+    assert client['anidb'].to('tvdb').map('4', EpisodeIdentifier(1, 1)) == EpisodeMatch({'tvdb': '72025'}, 2, 1)
 
-    assert client['anidb'].to('tvdb').map('202', EpisodeIdentifier(1, 2)) == EpisodeMatch(
-        {'tvdb': '70350'}, 0, 2
-    )
+    assert client['anidb'].to('tvdb').map('202', EpisodeIdentifier(1, 1)) == EpisodeMatch({'tvdb': '70350'}, 0, 2)
+    assert client['anidb'].to('tvdb').map('202', EpisodeIdentifier(1, 2)) == EpisodeMatch({'tvdb': '70350'}, 0, 2)
 
-    assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(15, 39)) == EpisodeMatch(
-        {'anidb': '9764'}, 1, 1
-    )
+    assert client['tvdb'].to('anidb').map('72025', EpisodeIdentifier(4, 12)) == EpisodeMatch({'anidb': '2673'}, 1, 12)
+    assert client['tvdb'].to('anidb').map('72025', EpisodeIdentifier(5, 25)) is None
 
-    assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(15, 40)) == EpisodeMatch(
-        {'anidb': '9764'}, 1, 2
-    )
+    assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(15, 39)) == EpisodeMatch({'anidb': '9764'}, 1, 1)
+    assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(15, 40)) == EpisodeMatch({'anidb': '9764'}, 1, 2)
 
 
 def test_episode_matches_absolute(client):

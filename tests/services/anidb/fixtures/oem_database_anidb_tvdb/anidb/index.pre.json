@@ -1,5 +1,13 @@
 {
   "items": {
+    "no_default_season": {
+      "hashes": {
+        "72025": "e86b7028d53b2a337f480b3b49adc867"
+      },
+      "media": "show",
+      "revision": 1
+    },
+
     "1": {
       "hashes": {
         "72025": "7226063146b7e1fa97724dbba692b3ba"
