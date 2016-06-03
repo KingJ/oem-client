@@ -1,3 +1,4 @@
+from oem import AbsoluteNumberRequiredError
 from oem.media.movie import MovieIdentifier
 from oem.media.show import EpisodeIdentifier, EpisodeMatch
 
@@ -44,7 +45,6 @@ def test_matches_tvdb_episode(client):
 
 
 def test_matches_tvdb_episode_absolute(client):
-    assert client['anidb'].to('tvdb').map('230', EpisodeIdentifier(2, 52)) is None
     assert client['anidb'].to('tvdb').map('230', EpisodeIdentifier(2, 52, 52)) == EpisodeMatch({'tvdb': '76703'}, absolute_num=52)
 
 
@@ -56,6 +56,11 @@ def test_matches_tvdb_episode_timeline(client):
 #
 # Invalid / Missing
 #
+
+
+def test_absolute_number_required(client):
+    with pytest.raises(AbsoluteNumberRequiredError):
+        client['anidb'].to('tvdb').map('230', EpisodeIdentifier(2, 52))
 
 
 def test_invalid_identifier(client):
