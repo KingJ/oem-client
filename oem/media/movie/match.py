@@ -9,7 +9,8 @@ class MovieMatch(MovieIdentifier):
 
     def __hash__(self):
         return hash((
-            self.identifiers,
+            hash(frozenset(self.identifiers.items())),
+
             self.progress
         ))
 

@@ -15,7 +15,8 @@ class EpisodeMatch(EpisodeIdentifier):
 
     def __hash__(self):
         return hash((
-            self.identifiers,
+            hash(frozenset(self.identifiers.items())),
+
             self.season_num,
             self.episode_num,
             self.absolute_num,
