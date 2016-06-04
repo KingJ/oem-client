@@ -5,6 +5,7 @@ from oem import OemClient
 from oem.media.show.identifier import EpisodeIdentifier
 from oem.providers import IncrementalReleaseProvider
 from oem_storage_codernitydb.main import CodernityDbStorage
+from semantic_version import Version
 
 import os
 
@@ -13,10 +14,15 @@ CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 log = logging.getLogger(__name__)
 
 
+class DemoReleaseProvider(IncrementalReleaseProvider):
+    def get_available_version(self, source, target):
+        return Version('1.16.1')
+
+
 def run():
     # Initialize client
     client = OemClient(
-        provider=IncrementalReleaseProvider(
+        provider=DemoReleaseProvider(
             database_url='http://127.0.0.1:5000/',
             fmt='minimize+msgpack',
             storage=CodernityDbStorage(os.path.join(
