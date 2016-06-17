@@ -1,9 +1,11 @@
+from oem.version import __version__
+
 from setuptools import setup
 
 
 setup(
-    name="oem",
-    version="1.0.0",
+    name="oem-client",
+    version=__version__,
     author="Dean Gardiner",
     author_email="me@dgardiner.net",
 

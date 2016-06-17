@@ -1,5 +1,8 @@
 from oem.core.exceptions import AbsoluteNumberRequiredError
-from oem.client import Client
 
-
-OemClient = Client
+try:
+    from oem.client import Client
+    OemClient = Client
+except ImportError:
+    Client = None
+    OemClient = None
