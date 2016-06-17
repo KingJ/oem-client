@@ -37,8 +37,7 @@ class ReleaseProvider(Provider):
             return None
 
         # Update database
-        if not self.update_database(source, target):
-            return None
+        self.update_database(source, target)
 
         # Open database
         return self.storage.open_database(source, target)
