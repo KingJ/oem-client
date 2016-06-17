@@ -13,6 +13,10 @@ class EpisodeMatch(EpisodeIdentifier):
 
         self.identifiers = identifiers or {}
 
+    @property
+    def valid(self):
+        return len(self.identifiers) > 0 and super(EpisodeMatch, self).valid
+
     def __hash__(self):
         return hash((
             hash(frozenset(self.identifiers.items())),
