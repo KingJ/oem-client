@@ -19,6 +19,8 @@ def test_matches_anidb_episode(client):
     assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(15, 39)) == EpisodeMatch({'anidb': '9764'}, 1, 1)
     assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(15, 40)) == EpisodeMatch({'anidb': '9764'}, 1, 2)
 
+    assert client['tvdb'].to('anidb').map('157211', EpisodeIdentifier(2, 10)) == EpisodeMatch({'anidb': '1703'}, 1, 36)
+
 
 def test_matches_anidb_episode_absolute(client):
     assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(1,  1,   1)) == EpisodeMatch({'anidb': '230'}, absolute_num=1)
