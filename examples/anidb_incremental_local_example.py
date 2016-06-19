@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -80,4 +82,4 @@ if __name__ == '__main__':
     from oem_framework.core.elapsed import Elapsed
 
     for line in Elapsed.format_statistics():
-        print line
+        print(line)

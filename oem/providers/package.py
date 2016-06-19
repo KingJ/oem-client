@@ -35,12 +35,14 @@ class PackageProvider(Provider):
         database_path = self._find_database(source, target)
 
         if database_path is None:
+            log.warn('Unable to find database for: %s -> %s', source, target)
             return None
 
         # Pick collection format
         self.format = self._pick_format(database_path, source)
 
         if self.format is None:
+            log.warn('Unable to find supported format in %r', database_path)
             return None
 
         # Open database
@@ -71,7 +73,7 @@ class PackageProvider(Provider):
             # List items in `package_path`
             try:
                 items = os.listdir(package_path)
-            except Exception, ex:
+            except Exception as ex:
                 log.debug('Unable to list directory %r - %s', package_path, ex, exc_info=True)
                 continue
 

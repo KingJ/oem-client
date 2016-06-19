@@ -54,6 +54,7 @@ class Service(object):
         )
 
         if self._database is None:
+            log.warn('Unable to load database for: %s -> %s', self.source_key, self.target_key)
             return False
 
         # Load collection
@@ -63,6 +64,7 @@ class Service(object):
         )
 
         if self._collection is None:
+            log.warn('Unable to load collection for: %s -> %s', self.source_key, self.target_key)
             return False
 
         # Successfully loaded service

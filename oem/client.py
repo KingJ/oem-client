@@ -5,6 +5,7 @@ from oem_core.core.plugin import PluginManager
 
 from pbr.version import VersionInfo
 import logging
+import six
 
 log = logging.getLogger(__name__)
 
@@ -67,7 +68,7 @@ class Client(object):
         return self._provider
 
     def load_all(self):
-        for service in self._services.itervalues():
+        for service in six.itervalues(self._services):
             service.load()
 
     def database_name(self, source, target):

@@ -1,10 +1,10 @@
 from oem.providers.release.core.base import ReleaseProvider
 
 from semantic_version import Version
+from six.moves.urllib.parse import urlparse, urljoin
 import logging
 import requests
 import time
-import urlparse
 
 log = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ class IncrementalReleaseProvider(ReleaseProvider):
         # Retrieve latest release information
         try:
             response = requests.get('https://api.github.com/repos/%s/releases/latest' % repo)
-        except requests.ConnectionError, ex:
+        except requests.ConnectionError as ex:
             log.warn('Unable to fetch release information for %r - %s', repo, ex)
             return None
 
@@ -204,7 +204,7 @@ class IncrementalReleaseProvider(ReleaseProvider):
         # Fetch file
         try:
             response = requests.get(url)
-        except requests.ConnectionError, ex:
+        except requests.ConnectionError as ex:
             log.warn('Unable to fetch file %r - %s', uri, ex)
             return None
 
