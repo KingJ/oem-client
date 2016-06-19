@@ -1,4 +1,11 @@
+/.cache
+/.coverage
+/.eggs
+/.tox
+/dist
 /examples/.codernitydb
+/htmlcov
+/test-results.xml
 
 *.egg-info
 *.iml
