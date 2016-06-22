@@ -68,7 +68,7 @@ class Service(object):
             return False
 
         # Successfully loaded service
-        log.info('Loaded service: %-5s -> %-5s (%r)', self._source, self._target, self._database.storage)
+        log.info('Loaded service: %-5s -> %-5s (storage: %r)', self._source, self._target, self._database.storage)
         self._loaded = True
 
         return True
