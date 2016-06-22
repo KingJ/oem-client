@@ -1,0 +1,5 @@
+appdirs>=1.4.0
+pbr>=1.9
+requests>=2.10.0
+semantic_version>=2.5.0
+six>=1.10.0
