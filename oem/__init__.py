@@ -1,4 +1,4 @@
-from oem.core.exceptions import AbsoluteNumberRequiredError
+from oem.core.exceptions import AbsoluteNumberRequiredError  # NOQA
 
 import logging
 

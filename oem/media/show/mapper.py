@@ -48,7 +48,10 @@ class ShowMapper(object):
                 default_season = try_convert(default_season, int)
 
                 if default_season is None:
-                    log.warn('Invalid value provided for the "default_season" parameter: %r', show.parameters['default_season'])
+                    log.warn(
+                        'Invalid value provided for the "default_season" parameter: %r',
+                        show.parameters['default_season']
+                    )
                     return None
 
         # Retrieve season number
@@ -124,7 +127,10 @@ class ShowMapper(object):
                 default_season = try_convert(default_season, int)
 
                 if default_season is None:
-                    log.warn('Invalid value provided for the "default_season" parameter: %r', season.parameters['default_season'])
+                    log.warn(
+                        'Invalid value provided for the "default_season" parameter: %r',
+                        season.parameters['default_season']
+                    )
                     return season, None
 
         # Retrieve season number

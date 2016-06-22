@@ -1,3 +1,5 @@
+# flake8: noqa
+
 from oem.providers.release.core.base import ReleaseProvider
 
 from semantic_version import Version
@@ -63,7 +65,10 @@ class IncrementalReleaseProvider(ReleaseProvider):
             last_error = time.time() - unavailable_at
 
             if last_error < UPDATE_RETRY_INTERVAL:
-                log.debug('Database %r is unavailable, will retry in %d seconds', repo, UPDATE_RETRY_INTERVAL - last_error)
+                log.debug(
+                    'Database %r is unavailable, will retry in %d seconds',
+                    repo, UPDATE_RETRY_INTERVAL - last_error
+                )
                 return None
 
         # Retrieve latest release information
@@ -118,7 +123,10 @@ class IncrementalReleaseProvider(ReleaseProvider):
             return True
 
         if (source, target, version) in self._version_disabled and not force:
-            log.warn('[%s -> %s] Update to v%s has been disabled: %s', source, target, version, self._version_disabled[(source, target, version)])
+            log.warn(
+                '[%s -> %s] Update to v%s has been disabled: %s',
+                source, target, version, self._version_disabled[(source, target, version)]
+            )
             return False
 
         log.info('[%s -> %s] Updating collection to v%s', source, target, version)
@@ -144,7 +152,7 @@ class IncrementalReleaseProvider(ReleaseProvider):
 
         if response is None:
             return False
-    
+
         # Update cache
         if not self.storage.update_index(source, target, response):
             return False
@@ -168,7 +176,7 @@ class IncrementalReleaseProvider(ReleaseProvider):
 
         if response is None:
             return False
-    
+
         # Update cache
         return self.storage.update_item(source, target, key, response, metadata)
 
@@ -192,7 +200,10 @@ class IncrementalReleaseProvider(ReleaseProvider):
             last_error = time.time() - unavailable_at
 
             if last_error < UPDATE_RETRY_INTERVAL:
-                log.debug('Version %s is unavailable, will retry in %d seconds', version, UPDATE_RETRY_INTERVAL - last_error)
+                log.debug(
+                    'Version %s is unavailable, will retry in %d seconds',
+                    version, UPDATE_RETRY_INTERVAL - last_error
+                )
                 return None
 
         # Build URL
@@ -233,7 +244,7 @@ class IncrementalReleaseProvider(ReleaseProvider):
             parts.append(source)
 
         # Build URL
-        return urlparse.urljoin(
+        return urljoin(
             self.database_url,
             '/'.join(parts + [
                 p_uri.path.lstrip('/')
