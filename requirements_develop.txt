@@ -1,3 +1,4 @@
+-e ../bencode.py
 -e ../oem-framework
 -e ../oem-core
 
