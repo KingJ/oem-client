@@ -231,7 +231,7 @@ class IncrementalReleaseProvider(ReleaseProvider):
             return None
 
         # Parse URI
-        p_uri = urlparse.urlparse(uri)
+        p_uri = urlparse(uri)
 
         # Build path fragments
         parts = [
