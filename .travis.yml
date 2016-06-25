@@ -25,4 +25,5 @@ deploy:
   - "dist/oem_client-*"
   on:
     repo: OpenEntityMap/oem-client
+    condition: $TRAVIS_PYTHON_VERSION = "2.7"
     tags: true
