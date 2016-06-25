@@ -1,9 +1,9 @@
 from oem.services import SERVICES
 from oem.providers import PROVIDERS
 from oem.providers.core.base import Provider
+from oem.version import __version__
 from oem_core.core.plugin import PluginManager
 
-from pbr.version import VersionInfo
 import logging
 import six
 
@@ -25,15 +25,9 @@ PACKAGES = {
     ('imdb', 'anidb'): 'oem-database-anidb-imdb'
 }
 
-try:
-    VERSION = VersionInfo('oem-client').version_string()
-except Exception as ex:
-    log.warn('Unable to determine package verison - %s', ex, exc_info=True)
-    VERSION = None
-
 
 class Client(object):
-    version = VERSION
+    version = __version__
 
     def __init__(self, formats=None, provider='package'):
         """OpenEntityMap (OEM) Client
