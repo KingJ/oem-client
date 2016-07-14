@@ -22,10 +22,10 @@ DEPENDENCIES = [
         '-rrequirements_vendor.txt',
         '-rtests/requirements_vendor.txt',
 
-        '--editable="git+https://github.com/OpenEntityMap/oem-framework.git@{BRANCH}#egg=oem-framework"',
-        '--editable="git+https://github.com/OpenEntityMap/oem-core.git@{BRANCH}#egg=oem-core"',
-        '--editable="git+https://github.com/OpenEntityMap/oem-format-json.git@{BRANCH}#egg=oem-format-json"',
-        '--editable="git+https://github.com/OpenEntityMap/oem-storage-file.git@{BRANCH}#egg=oem-storage-file"'
+        '--editable=git+https://github.com/OpenEntityMap/oem-framework.git@{BRANCH}#egg=oem-framework',
+        '--editable=git+https://github.com/OpenEntityMap/oem-core.git@{BRANCH}#egg=oem-core',
+        '--editable=git+https://github.com/OpenEntityMap/oem-format-json.git@{BRANCH}#egg=oem-format-json',
+        '--editable=git+https://github.com/OpenEntityMap/oem-storage-file.git@{BRANCH}#egg=oem-storage-file'
     ])
 ]
 
