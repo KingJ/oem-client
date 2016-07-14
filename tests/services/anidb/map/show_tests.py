@@ -28,6 +28,20 @@ def test_matches_anidb_episode_absolute(client):
     assert client['tvdb'].to('anidb').map('76703', EpisodeIdentifier(3,  4, 122)) == EpisodeMatch({'anidb': '230'}, absolute_num=122)
 
 
+def test_matches_anidb_episode_timeline(client):
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 1, progress=3.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=1.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 1, progress=49.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=24.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 1, progress=53.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=26.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 1, progress=99.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=49.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 1, progress=100.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=50.0)
+
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 2, progress=3.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=51.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 2, progress=49.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=74.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 2, progress=53.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=76.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 2, progress=99.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=99.5)
+    assert client['tvdb'].to('anidb').map('232511', EpisodeIdentifier(1, 2, progress=100.0)) == EpisodeMatch({'anidb': '1491'}, 1, 1, progress=100.0)
+
+
 def test_matches_tvdb_episode(client):
     assert client['anidb'].to('tvdb').map('1', EpisodeIdentifier(1, 1)) == EpisodeMatch({'tvdb': '72025'}, 1, 1)
 
@@ -50,9 +64,22 @@ def test_matches_tvdb_episode_absolute(client):
     assert client['anidb'].to('tvdb').map('230', EpisodeIdentifier(2, 52, 52)) == EpisodeMatch({'tvdb': '76703'}, absolute_num=52)
 
 
+def test_matches_tvdb_episode_progress(client):
+    assert client['anidb'].to('tvdb').map('5101', EpisodeIdentifier(1, 2, progress=59.5)) == EpisodeMatch({'tvdb': '80644'}, 1, 2, progress=59.5)
+
+
 def test_matches_tvdb_episode_timeline(client):
-    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=3)) == EpisodeMatch({'tvdb': '232511'}, 1, 1)
-    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=53)) == EpisodeMatch({'tvdb': '232511'}, 1, 2)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=1.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 1, progress=3.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=24.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 1, progress=49.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=26.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 1, progress=53.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=49.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 1, progress=99.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=50.0)) == EpisodeMatch({'tvdb': '232511'}, 1, 1, progress=100.0)
+
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=51.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 2, progress=3.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=74.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 2, progress=49.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=76.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 2, progress=53.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=99.5)) == EpisodeMatch({'tvdb': '232511'}, 1, 2, progress=99.0)
+    assert client['anidb'].to('tvdb').map('1491', EpisodeIdentifier(1, 1, progress=100.0)) == EpisodeMatch({'tvdb': '232511'}, 1, 2, progress=100.0)
 
 
 #
