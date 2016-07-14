@@ -4,7 +4,6 @@
 /.tox
 /build
 /dist
-/examples/.codernitydb
 /htmlcov
 /test-results.xml
 
