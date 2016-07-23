@@ -2,7 +2,9 @@ from oem.media.show.identifier import EpisodeIdentifier
 
 
 class EpisodeMatch(EpisodeIdentifier):
-    def __init__(self, identifiers, season_num=None, episode_num=None, absolute_num=None, progress=None, part=None, mappings=None):
+    def __init__(self, identifiers, season_num=None, episode_num=None, absolute_num=None,
+                 progress=None, part=None, mappings=None):
+
         super(EpisodeMatch, self).__init__(
             season_num=season_num,
             episode_num=episode_num,
