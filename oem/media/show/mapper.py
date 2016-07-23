@@ -13,7 +13,7 @@ class ShowMapper(object):
     def __init__(self, service):
         self._service = service
 
-    def match(self, show, identifier):
+    def match(self, show, identifier, resolve_mappings=True):
         if identifier is None or not isinstance(identifier, EpisodeIdentifier) or not identifier.valid:
             raise ValueError('Invalid value provided for "identifier" parameter')
 
@@ -28,7 +28,10 @@ class ShowMapper(object):
 
         if season:
             # Episode
-            result = self._match_episode(show, season, identifier)
+            result = self._match_episode(
+                show, season, identifier,
+                resolve_mappings=resolve_mappings
+            )
 
             if result:
                 best = result
@@ -168,11 +171,22 @@ class ShowMapper(object):
 
         return season, match
 
-    def _match_episode(self, show, season, identifier):
+    def _match_episode(self, show, season, identifier, resolve_mappings=True):
         episode = season.episodes.get(str(identifier.episode_num))
 
         if not episode:
             return None
+
+        if not resolve_mappings:
+            match = EpisodeMatch(
+                self._get_identifiers(show, season, episode),
+                mappings=episode.mappings
+            )
+
+            if not match.valid:
+                return None
+
+            return match
 
         for episode_mapping in episode.mappings:
             # Parse timeline attributes

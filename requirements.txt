@@ -1,5 +1,5 @@
 oem-core>=1.1.0
-oem-framework>=1.1.0
+oem-framework>=1.2.2
 
 six>=1.10.0
 

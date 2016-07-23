@@ -24,13 +24,54 @@ class EpisodeIdentifier(Identifier):
             self.absolute_num is not None
         )
 
+    def to_dict(self):
+        result = {}
+
+        if self.absolute_num is not None:
+            result['absolute_num'] = self.absolute_num
+
+        if self.season_num is not None:
+            result['season_num'] = self.season_num
+
+        if self.episode_num is not None:
+            result['episode_num'] = self.episode_num
+
+        if self.progress is not None:
+            result['progress'] = self.progress
+
+        return result
+
+    def to_frozenset(self, data=None):
+        if data is None:
+            data = self.to_dict()
+
+        if type(data) is dict:
+            data = data.items()
+
+        result = []
+
+        for item in data:
+            if type(item) is tuple and len(item) == 2:
+                key, value = item
+            else:
+                key = None
+                value = item
+
+            if type(value) is dict:
+                value = self.to_frozenset(value)
+
+            if type(value) is list:
+                value = self.to_frozenset(value)
+
+            if key is not None:
+                result.append((key, value))
+            else:
+                result.append(value)
+
+        return frozenset(result)
+
     def __hash__(self):
-        return hash((
-            self.season_num,
-            self.episode_num,
-            self.absolute_num,
-            self.progress
-        ))
+        return hash(self.to_frozenset())
 
     def __eq__(self, other):
         if not other:
