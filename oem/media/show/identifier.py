@@ -4,7 +4,7 @@ from oem.media.core.base.identifier import Identifier
 class EpisodeIdentifier(Identifier):
     __slots__ = ['season_num', 'episode_num', 'absolute_num', 'progress']
 
-    def __init__(self, season_num=None, episode_num=None, absolute_num=None, progress=None):
+    def __init__(self, season_num=None, episode_num=None, absolute_num=None, progress=None, part=None):
         # Season + Episode Identifier
         self.season_num = season_num
         self.episode_num = episode_num
@@ -14,6 +14,7 @@ class EpisodeIdentifier(Identifier):
 
         # Extra
         self.progress = progress
+        self.part = part
 
     @property
     def valid(self):
@@ -38,6 +39,9 @@ class EpisodeIdentifier(Identifier):
 
         if self.progress is not None:
             result['progress'] = self.progress
+
+        if self.part is not None:
+            result['part'] = self.part
 
         return result
 
@@ -84,7 +88,8 @@ class EpisodeIdentifier(Identifier):
 
     def __repr__(self):
         attributes = [
-            ('%s: %r' % (key, getattr(self, key))) for key in ['progress'] if getattr(self, key)
+            ('%s: %r' % (key, getattr(self, key)))
+            for key in ['progress', 'part'] if getattr(self, key)
         ]
 
         fragments = []
