@@ -1,6 +1,6 @@
 from oem.core.exceptions import AbsoluteNumberRequiredError
-from oem.media.show.identifier import EpisodeIdentifier
-from oem.media.show.match import EpisodeMatch
+from oem.media.movie import MovieIdentifier
+from oem.media.show import EpisodeIdentifier, EpisodeMatch
 from oem_framework.core.helpers import try_convert
 
 from copy import deepcopy
@@ -14,7 +14,15 @@ class ShowMapper(object):
         self._service = service
 
     def match(self, show, identifier, resolve_mappings=True):
-        if identifier is None or not isinstance(identifier, EpisodeIdentifier) or not identifier.valid:
+        if identifier is None:
+            # Create identifier for S01E01
+            identifier = EpisodeIdentifier(1, 1)
+        elif isinstance(identifier, MovieIdentifier):
+            # Convert movie identifier to S01E01
+            identifier = EpisodeIdentifier(1, 1, progress=identifier.progress)
+
+        # Validate identifier
+        if identifier and not identifier.valid:
             raise ValueError('Invalid value provided for "identifier" parameter')
 
         # Show
