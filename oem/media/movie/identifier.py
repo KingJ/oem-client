@@ -9,19 +9,13 @@ class MovieIdentifier(Identifier):
     def valid(self):
         return True
 
-    def __hash__(self):
-        return hash((
-            self.progress,
-        ))
+    def to_dict(self):
+        result = {}
 
-    def __eq__(self, other):
-        if not other:
-            return False
+        if self.progress is not None:
+            result['progress'] = self.progress
 
-        return self.__hash__() == other.__hash__()
-
-    def __ne__(self, other):
-        return not(self == other)
+        return result
 
     def __repr__(self):
         attributes = [
