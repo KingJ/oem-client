@@ -1,6 +1,7 @@
 from oem.core.exceptions import AbsoluteNumberRequiredError
-from oem.media.movie import MovieIdentifier
-from oem.media.show import EpisodeIdentifier, EpisodeMatch
+from oem.media.movie.identifier import MovieIdentifier
+from oem.media.show.identifier import EpisodeIdentifier
+from oem.media.show.match import EpisodeMatch
 from oem_framework.core.helpers import try_convert
 
 from copy import deepcopy
