@@ -2,7 +2,9 @@ from oem.media.core.base.identifier import Identifier
 
 
 class MovieIdentifier(Identifier):
-    def __init__(self, progress=None):
+    def __init__(self, part=None, progress=None):
+        self.part = part
+
         self.progress = progress
 
     @property
