@@ -21,15 +21,25 @@ after_success:
   - coveralls
   - python setup.py bdist_wheel sdist
 deploy:
-  provider: releases
-  api_key:
-    secure: OPRucjctYW94xEV9xk6I7D1cQzZVh08ymDnzdahqa9BShDgtlZfoxKI4GfCfdPoyXT4Imal/c2Uv16zejm2qPzzwN531V9h47jBMVNDX7uAnr++DdAhiY2nJUXryoEC0kn0WXFWUQdJ+/fTGwZOHxYklU8g2S088Cd4S/1Y7GrXnBGz8Ht7lxXDBW/+W09D9FVVoc68IBYuhPjH21vE2DhAGMtQ5bLVRzxkiyhUgldBGWGRmJnwd5CTH16GU1RiaJ9zcr6eUgus+OGjKi1wCYkJ6mQGESnCNgumpD3FYLde8q+toFxQ+A+/X13KblvaxXtx7UnEw1SZA+XCLxAPeKy0LBjGvzGObri+cVNoPPmhMymZ6xpspLN1JMKtEVhyLIFoQnfMaiH7Lppnpuisp0wa/Qa+IQiIdsFFd3PESY8ViFCiHwxgkl9hyUk1DffOZRevqo8P+LktZKH9dA6VOdFexgFnP7JXyc56uwnxFUUso0aivRMKfhWM0zqptI7pSYKVsCQPeomx5227uMod8ZiPo1m/vKHGzLk+91+vMM5ytrI+zGphZ/mbkCQqJwWP50xmjtm+OapN3QoAtHw6NW2mFyXvr7L+8XnG2SVHKYxw9ZXlShAZK7Z73WTORE5+/lp+dqhnASlVWOqmAPcrmAOcUCtQTVF0UoWhvi4WnUOA=
-  skip_cleanup: true
-  file_glob: true
-  file:
-  - "dist/oem-client-*"
-  - "dist/oem_client-*"
-  on:
-    repo: OpenEntityMap/oem-client
-    condition: $TRAVIS_PYTHON_VERSION = "3.6"
-    tags: true
+  - provider: releases
+    api_key:
+      secure: OPRucjctYW94xEV9xk6I7D1cQzZVh08ymDnzdahqa9BShDgtlZfoxKI4GfCfdPoyXT4Imal/c2Uv16zejm2qPzzwN531V9h47jBMVNDX7uAnr++DdAhiY2nJUXryoEC0kn0WXFWUQdJ+/fTGwZOHxYklU8g2S088Cd4S/1Y7GrXnBGz8Ht7lxXDBW/+W09D9FVVoc68IBYuhPjH21vE2DhAGMtQ5bLVRzxkiyhUgldBGWGRmJnwd5CTH16GU1RiaJ9zcr6eUgus+OGjKi1wCYkJ6mQGESnCNgumpD3FYLde8q+toFxQ+A+/X13KblvaxXtx7UnEw1SZA+XCLxAPeKy0LBjGvzGObri+cVNoPPmhMymZ6xpspLN1JMKtEVhyLIFoQnfMaiH7Lppnpuisp0wa/Qa+IQiIdsFFd3PESY8ViFCiHwxgkl9hyUk1DffOZRevqo8P+LktZKH9dA6VOdFexgFnP7JXyc56uwnxFUUso0aivRMKfhWM0zqptI7pSYKVsCQPeomx5227uMod8ZiPo1m/vKHGzLk+91+vMM5ytrI+zGphZ/mbkCQqJwWP50xmjtm+OapN3QoAtHw6NW2mFyXvr7L+8XnG2SVHKYxw9ZXlShAZK7Z73WTORE5+/lp+dqhnASlVWOqmAPcrmAOcUCtQTVF0UoWhvi4WnUOA=
+    skip_cleanup: true
+    file_glob: true
+    file:
+    - "dist/oem-client-*"
+    - "dist/oem_client-*"
+    on:
+      repo: OpenEntityMap/oem-client
+      condition: $TRAVIS_PYTHON_VERSION = "3.6"
+      tags: true
+  - provider: pypi
+    distributions: "bdist_wheel sdist"
+    user: "fm-build"
+    password:
+      secure: VwDNdGUs/Vj/xDul5suMiXYzFo2lRbSpy5etGA9Pf0xiuKMaQaBux9obPCNZtMWXG0H20D6U7w0qRlUgLJUGXImgypKTuz4TNQQa2bUjc+n6dvYAopnEpSqAdlObjBVfpoXvWH/sn6oag8HyGjU6XzAMqZY+1Ar1fFDFixxmoYsOqjz4XF0nYnxFhYXakbj+DQpyDqnk1eIJY/cZ/dlQOKprlisMxFESrfLQZ3ogY+aAo+He3saML8qKZqe0JKfO9QiCn8DPQ4fZsSdnBA3ju4A0AS6uedTy9wZU36pxHUnvyKEJru0vLMNETZKs8HzkRvxDTmOK8yUslkgYbqfpKBBszBi03quNwM+oLliJrWpTmhs1dKR86GL9dkJApsTASjW53wMSEtbNWeSV+Ru67cWp8QONPCli4wOcJa7+eYKy0o2HHVbzkbIb/Q/ZmL9qwoLeVtl17apj+g6u+ZO3lDAxxu86AUk/tQupeDctdKxEVx3HHL7tzrd0NjaS0KuPNlekxSXvyVlWBFXCr2Ox5SxCKhfR1Be5kieo75koLh0lRkOLUzuE3TfZwB9Yi7VhlkvbG+L729cm7SiYJjpdfVvU1g1LU6b2glNAg88pL/yEPYP/Om9RuNeweTafa0npl8ZO0+3vHV7R3FZs+plrAGcd7cYZEt3FnIp67SA26L4=
+    skip_cleanup: true
+    on:
+      repo: OpenEntityMap/oem-client
+      condition: $TRAVIS_PYTHON_VERSION = "3.6"
+      tags: true
