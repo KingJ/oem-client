@@ -1,3 +1,6 @@
+from __future__ import absolute_import, division, print_function
+
+
 class MockService(object):
     def __init__(self, source, target):
         self._source = source

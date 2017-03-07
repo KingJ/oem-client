@@ -1,8 +1,9 @@
-from tests.core.mock import MockService
+from __future__ import absolute_import, division, print_function
 
 from oem.core.exceptions import AbsoluteNumberRequiredError
 from oem.media.show import ShowMapper, EpisodeIdentifier
 from oem_core.models import Collection, Show, Season, Episode, EpisodeMapping
+from tests.core.mock import MockService
 
 import pytest
 
