@@ -1,3 +1,0 @@
-six>=1.10.0
-
--e git://github.com/fuzeman/bencode.py.git#egg=bencode.py
